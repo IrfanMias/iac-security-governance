@@ -1,0 +1,13 @@
+steps:
+  # Step 1: Pull the code from the repository into the runner
+  - name: Checkout Repository
+    uses: actions/checkout@v4
+
+  # Step 2: Run the Checkov scanner against the Terraform code
+  - name: Run Checkov Security Scan
+    uses: bridgecrewio/checkov-action@master
+    with:
+      directory: .
+      framework: terraform
+      # soft_fail is set to false because we WANT the pipeline to break if it finds a vulnerability
+      soft_fail: false
