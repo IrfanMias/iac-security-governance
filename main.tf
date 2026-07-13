@@ -13,16 +13,23 @@ resource "aws_s3_bucket_ownership_controls" "insecure_bucket_ownership" {
 }
 
 # 3. The Trap: Deliberately disabling the Public Access Block
+# 3a. The Fix: Enabling the Public Access Block
 resource "aws_s3_bucket_public_access_block" "insecure_bucket_access" {
   bucket = aws_s3_bucket.insecure_bucket.id
 
-  block_public_acls       = false
-  block_public_policy     = false
-  ignore_public_acls      = false
-  restrict_public_buckets = false
+  #block_public_acls       = false
+  #block_public_policy     = false
+  #ignore_public_acls      = false
+  #restrict_public_buckets = false
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true  
 }
 
 # 4. The Trap: Explicitly setting the Access Control List (ACL) to Public Read
+# 4a. The Fix: Explicitly setting the Access Control List (ACL) to Private
 resource "aws_s3_bucket_acl" "insecure_bucket_acl" {
   depends_on = [
     aws_s3_bucket_ownership_controls.insecure_bucket_ownership,
@@ -30,5 +37,6 @@ resource "aws_s3_bucket_acl" "insecure_bucket_acl" {
   ]
 
   bucket = aws_s3_bucket.insecure_bucket.id
-  acl    = "public-read"
+  #acl    = "public-read"
+  acl    = "private"
 }
