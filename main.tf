@@ -40,3 +40,21 @@ resource "aws_s3_bucket_acl" "insecure_bucket_acl" {
   #acl    = "public-read"
   acl    = "private"
 }
+
+# 5. Remediation: Enabling Versioning (Ransomware protection)
+resource "aws_s3_bucket_versioning" "versioning" {
+  bucket = aws_s3_bucket.insecure_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+# 6. REMEDIATION: Enabling Server-Side Encryption (Data-at-rest protection)
+resource "aws_s3_bucket_server_side_encryption_configuration" "encryption" {
+  bucket = aws_s3_bucket.insecure_bucket.id
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
+  }
+}
