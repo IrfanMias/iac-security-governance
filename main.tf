@@ -7,14 +7,14 @@ resource "aws_s3_bucket" "insecure_bucket" {
   #checkov:skip=CKV_AWS_144: Cross-region replication not required
   #checkov:skip=CKV_AWS_145: AES256 encryption is sufficient, KMS not required
   #checkov:skip=CKV2_AWS_61: Lifecycle configuration not required
-  #checkov:skip=CKV2_AWS_62: Event notifications not required
-  #checkov:skip=CKV2_AWS_65: Explicit private ACL is acceptable for this demo
-  #checkov:skip=CKV2_AWS_65:Acknowledged ACL requirement, accepting risk for demo environment
+  #checkov:skip=CKV2_AWS_62: Event notifications not required 
 }
 
 # 2. Configure Ownership Controls
 resource "aws_s3_bucket_ownership_controls" "insecure_bucket_ownership" {
   bucket = aws_s3_bucket.insecure_bucket.id
+
+  #checkov:skip=CKV2_AWS_65:Acknowledged ACL requirement, accepting risk for demo environment
 
   rule {
     object_ownership = "BucketOwnerPreferred"
