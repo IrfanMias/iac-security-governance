@@ -9,6 +9,7 @@ resource "aws_s3_bucket" "insecure_bucket" {
   #checkov:skip=CKV2_AWS_61: Lifecycle configuration not required
   #checkov:skip=CKV2_AWS_62: Event notifications not required
   #checkov:skip=CKV2_AWS_65: Explicit private ACL is acceptable for this demo
+  #checkov:skip=CKV2_AWS_65:Acknowledged ACL requirement, accepting risk for demo environment
 }
 
 # 2. Configure Ownership Controls
