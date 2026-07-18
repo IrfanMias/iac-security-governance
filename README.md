@@ -1,36 +1,33 @@
-# iac-security-governance
-An automated DevSecOps CI/CD pipeline enforcing shift-left security and compliance on Infrastructure-as-Code (Terraform) using Checkov
-
-**Enterprise DevSecOps: Automated IaC Security Governance**
+# Enterprise DevSecOps: Automated IaC Security Governance
 
 🛡️ Project Overview
-This project demonstrates "Shift-Left Security" by engineering an automated continuous integration/continuous deployment (CI/CD) security gate. It prevents developers from deploying non-compliant or vulnerable cloud infrastructure (Infrastructure-as-Code) to production environments.
+Modern enterprises cannot rely on manual security reviews for cloud deployments. It is too slow and prone to human error. This project demonstrates "Shift-Left Security" by engineering an automated continuous integration/continuous deployment (CI/CD) security gate. It prevents developers from deploying non-compliant or vulnerable cloud infrastructure to production environments.
 
-*Read the full architectural breakdown and case study on my Notion Portfolio: [https://app.notion.com/p/Template-IT-Engineering-Project-Showcase-DevSecOps-Pipeline-Automation-4d61b4e34b5848cc8fee01d1c81b8b03?pvs=28]
+*Read the full architectural breakdown and case study on my Notion Portfolio: [ https://app.notion.com/p/Enterprise-DevSecOps-Automated-IaC-Security-Governance-4d61b4e34b5848cc8fee01d1c81b8b03 ]
 
 🏗️ Architecture & Technologies
 i. Infrastructure as Code (IaC): HashiCorp Terraform
 ii. CI/CD Orchestration: GitHub Actions
-iii. Static Application Security Testing (SAST): Checkov
+iii. Static Application Security Testing (SAST): Checkov (Palo Alto Networks)
 iv. Cloud Environment: AWS
 
-🚀 The Workflow
-Developer Commits Code: Terraform code defining cloud storage is pushed to the repository.
-Pipeline Triggers: GitHub Actions automatically provisions a runner.
-Security Scan: Checkov analyzes the .tf files against hundreds of enterprise security policies.
-Enforcement:
-- If a misconfiguration is detected (e.g., Public Access enabled), the build FAILS and blocks deployment.
-- If the code is secure, the build PASSES, allowing deployment to proceed.
+🚀 The Security Workflow
+1. The Commit: A developer authors Terraform code defining a AWS S3 bucket and pushes it to the repository.
+2. THe Trigger: GitHub Actions automatically provisions an ephemeral Ubuntu runner.
+3. The Scan: Checkov parses the .tf files against hundreds of enterprise security and compliance policies (CIS, HIPAA, PCI-DSS).
+4. The Enforcement:
+- If a misconfiguration is detected (e.g., Public Access enabled, missing encryption), the pipeline acts as a hard gate, FAILS the build and blocking deployment.
+- If the code is secure and compliant, the build PASSES thus allowing deployment to proceed.
 
 📸 Proof of Concept
-1. The Interception (Failed Build)
+1. The Interception (Blocked Deployment)
+
+   To prove the efficacy of the pipeline, a deliberate vulnerability (Public Read ACL) was introduced to the Terraform blueprint.
 
 (Screenshot of the red failed GitHub Action highlighting the Checkov error)
 
-The pipeline successfully detects the intentionally misconfigured public storage bucket and halts the deployment.
+2. Remediation & Exception Handling (Successful Deployment)
 
-2. The Remediation (Passed Build)
+   The Terraform code was remediated to enforce strict private access, AES-256 encryption, and versioning. Additionally, precise Checkov exception tags (#checkov:skip) were implemented to demonstrate expert-level handling of false-positives and accepted business risks.
 
 (Screenshot of the green passed GitHub Action)
-
-After remediating the Terraform code to enforce private access, the security gate validates the changes and allows the build to pass.
