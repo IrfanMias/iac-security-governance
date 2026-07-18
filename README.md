@@ -24,10 +24,10 @@ iv. Cloud Environment: AWS
 
    To prove the efficacy of the pipeline, a deliberate vulnerability (Public Read ACL) was introduced to the Terraform blueprint.
 
-(Screenshot of the red failed GitHub Action highlighting the Checkov error)
+![checkov-red_failed.png](https://github.com/IrfanMias/iac-security-governance/blob/main/assets/checkov-red_failed.png)
 
 2. Remediation & Exception Handling (Successful Deployment)
 
    The Terraform code was remediated to enforce strict private access, AES-256 encryption, and versioning. Additionally, precise Checkov exception tags (#checkov:skip) were implemented to demonstrate expert-level handling of false-positives and accepted business risks.
 
-(Screenshot of the green passed GitHub Action)
+![checkov-green_passed.png](https://github.com/IrfanMias/iac-security-governance/blob/main/assets/checkov-green_passed.png)
